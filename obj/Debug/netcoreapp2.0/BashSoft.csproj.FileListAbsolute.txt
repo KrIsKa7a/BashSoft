@@ -1,0 +1,11 @@
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\bin\Debug\netcoreapp2.0\BashSoft.deps.json
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\bin\Debug\netcoreapp2.0\BashSoft.runtimeconfig.json
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\bin\Debug\netcoreapp2.0\BashSoft.runtimeconfig.dev.json
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\bin\Debug\netcoreapp2.0\BashSoft.dll
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\bin\Debug\netcoreapp2.0\BashSoft.pdb
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.csprojResolveAssemblyReference.cache
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.csproj.CoreCompileInputs.cache
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.AssemblyInfoInputs.cache
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.AssemblyInfo.cs
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.dll
+D:\VisualStudio2017 Projects\BashSoft\BashSoft\obj\Debug\netcoreapp2.0\BashSoft.pdb
