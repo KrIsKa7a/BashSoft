@@ -6,8 +6,7 @@ namespace BashSoft
     {
         static void Main(string[] args)
         {
-            IOManager.ChangeCurrentDirectoryAbsolute(@"D:\Homeworks");
-            IOManager.TraverseDirectory(3);
+            InputReader.StartReadingCommands();
         }
     }
 }

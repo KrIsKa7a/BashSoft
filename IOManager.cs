@@ -26,17 +26,24 @@ namespace BashSoft
 
                 OutputWriter.WriteMessageOnNewLine($"{new string('-', currentDepth)}{currentPath}");
 
-                foreach (var file in Directory.GetFiles(currentPath))
+                try
                 {
-                    var indexOfSlash = file.LastIndexOf('\\');
-                    var fileName = file.Substring(indexOfSlash);
-                    OutputWriter.WriteMessageOnNewLine(String.Format(
-                        @"{0}{1}", new string('-', indexOfSlash), fileName));
-                }
+                    foreach (var file in Directory.GetFiles(currentPath))
+                    {
+                        var indexOfSlash = file.LastIndexOf('\\');
+                        var fileName = file.Substring(indexOfSlash);
+                        OutputWriter.WriteMessageOnNewLine(String.Format(
+                            @"{0}{1}", new string('-', indexOfSlash), fileName));
+                    }
 
-                foreach (string directory in Directory.GetDirectories(currentPath))
+                    foreach (string directory in Directory.GetDirectories(currentPath))
+                    {
+                        pathsToTraverse.Enqueue(directory);
+                    }
+                }
+                catch (UnauthorizedAccessException)
                 {
-                    pathsToTraverse.Enqueue(directory);
+                    OutputWriter.DisplayException(ExceptionMessages.UnauthorizedAccessExceptionMessage);
                 }
             }
         }
@@ -44,7 +51,15 @@ namespace BashSoft
         public static void CreateDirectoryInCurrentFolder(string name)
         {
             var path = GetCurrentDirectoryPath() + "\\" + name;
-            Directory.CreateDirectory(path);
+
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (ArgumentException)
+            {
+                OutputWriter.DisplayException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+            }
         }
 
         private static string GetCurrentDirectoryPath()
@@ -58,10 +73,17 @@ namespace BashSoft
         {
             if (relativePath == "..")
             {
-                string currentPath = SessionData.currentPath;
-                int indexOfLastSlash = currentPath.LastIndexOf('\\');
-                string newPath = currentPath.Substring(0, indexOfLastSlash);
-                SessionData.currentPath = newPath;
+                try
+                {
+                    string currentPath = SessionData.currentPath;
+                    int indexOfLastSlash = currentPath.LastIndexOf('\\');
+                    string newPath = currentPath.Substring(0, indexOfLastSlash);
+                    SessionData.currentPath = newPath;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    OutputWriter.DisplayException(ExceptionMessages.UnableToGoToHigherInPartitionHierrarchy);
+                }
             }
             else
             {
