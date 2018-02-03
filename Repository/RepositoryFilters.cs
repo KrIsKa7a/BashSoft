@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BashSoft
@@ -11,15 +12,15 @@ namespace BashSoft
         {
             if (wantedFilter == "excellent")
             {
-                FilterAndTake(wantedData, ExcellentFilter, studentsToTake);
+                FilterAndTake(wantedData, x => x >= 5, studentsToTake);
             }
             else if (wantedFilter == "average")
             {
-                FilterAndTake(wantedData, AverageFilter, studentsToTake);
+                FilterAndTake(wantedData, x => x >= 3.50 && x < 5.00, studentsToTake);
             }
             else if (wantedFilter == "poor")
             {
-                FilterAndTake(wantedData, PoorFilter, studentsToTake);
+                FilterAndTake(wantedData, x => x < 3.50, studentsToTake);
             }
             else
             {
@@ -39,44 +40,16 @@ namespace BashSoft
                     break;
                 }
 
-                double averageMark = Average(upp.Value);
+                double averageScore = upp.Value.Average();
+                double percentageOfFullFillment = averageScore / 100.0;
+                double mark = percentageOfFullFillment * 4 + 2;
 
-                if (givenFilter(averageMark))
+                if (givenFilter(mark))
                 {
                     OutputWriter.PrintStudent(upp);
                     counterForPrinted++;
                 }
             }
-        }
-
-        private static bool ExcellentFilter(double mark)
-        {
-            return mark >= 5.00;
-        }
-
-        private static bool AverageFilter(double mark)
-        {
-            return mark < 5.00 && mark >= 3.50;
-        }
-
-        private static bool PoorFilter(double mark)
-        {
-            return mark < 3.50;
-        }
-
-        private static double Average(List<int> scoresOnTasks)
-        {
-            int totalScore = 0;
-
-            foreach (var score in scoresOnTasks)
-            {
-                totalScore += score;
-            }
-
-            var percentageOfAll = totalScore / (scoresOnTasks.Count * 100.0);
-            var mark = percentageOfAll * 4 + 2;
-
-            return mark;
         }
     }
 }
