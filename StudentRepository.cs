@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BashSoft
 {
@@ -30,33 +31,49 @@ namespace BashSoft
 
             if (File.Exists(path))
             {
+                var pattern = @"^([A-Z]+[a-z#+]*_[A-Z][a-z]{2}_\d{4})\s+([A-Z][a-z]{0,3}\d{2}_\d{2,4})\s+(\d+)$";
+                Regex regex = new Regex(pattern);
+
                 string[] allInputLines = File.ReadAllLines(path);
 
                 for (int line = 0; line < allInputLines.Length; line++)
                 {
-                    if (!string.IsNullOrEmpty(allInputLines[line]))
+                    if (!string.IsNullOrEmpty(allInputLines[line]) && regex.IsMatch(allInputLines[line]))
                     {
-                        var inputArgs = allInputLines[line].Split(' ');
-                        string course = inputArgs[0];
-                        var student = inputArgs[1];
-                        var mark = int.Parse(inputArgs[2]);
+                        var currentMatch = regex.Match(allInputLines[line]);
+                        //var inputArgs = allInputLines[line].Split(' ');
+                        string course = currentMatch.Groups[1].Value;
+                        var courseYear = int.Parse(course.Substring(course.LastIndexOf('_') + 1));
 
-                        if (!studentsByCourse.ContainsKey(course))
+                        if (courseYear < 2014 || courseYear > DateTime.Now.Year)
                         {
-                            studentsByCourse[course] = new Dictionary<string, List<int>>();
+                            continue;
                         }
 
-                        if (!studentsByCourse[course].ContainsKey(student))
+                        var student = currentMatch.Groups[2].Value;
+                        int mark;
+                        bool hasParsed = int.TryParse(currentMatch.Groups[3].Value, out mark);
+
+                        if (hasParsed)
                         {
-                            studentsByCourse[course][student] = new List<int>();
+                            if (!studentsByCourse.ContainsKey(course))
+                            {
+                                studentsByCourse[course] = new Dictionary<string, List<int>>();
+                            }
+
+                            if (!studentsByCourse[course].ContainsKey(student))
+                            {
+                                studentsByCourse[course][student] = new List<int>();
+                            }
+
+                            studentsByCourse[course][student].Add(mark);
+
+                            isDataInitialized = true;
                         }
-
-                        studentsByCourse[course][student].Add(mark);
-
-                        isDataInitialized = true;
-                        OutputWriter.WriteMessageOnNewLine("Data read!");
                     }
                 }
+
+                OutputWriter.WriteMessageOnNewLine("Data read!");
             }
             else
             {
@@ -117,6 +134,36 @@ namespace BashSoft
                 {
                     OutputWriter.PrintStudent(studentMarksEntry);
                 }
+            }
+        }
+
+        public static void FilterAndTake(string courseName, string givenFilter,
+            int? studentsToTake = null)
+        {
+            if (IsQueryForCoursePossible(courseName))
+            {
+                if (studentsToTake == null)
+                {
+                    studentsToTake = studentsByCourse[courseName].Count;
+                }
+
+                RepositoryFilters.FilterAndTake(studentsByCourse[courseName],
+                    givenFilter, studentsToTake.Value);
+            }
+        }
+
+        public static void OrderAndTake(string courseName, string comparison,
+            int? studentsToTake = null)
+        {
+            if (IsQueryForCoursePossible(courseName))
+            {
+                if (studentsToTake == null)
+                {
+                    studentsToTake = studentsByCourse[courseName].Count;
+                }
+
+                RepositorySorters.OrderAndTake(studentsByCourse[courseName],
+                    comparison, studentsToTake.Value);
             }
         }
     }
