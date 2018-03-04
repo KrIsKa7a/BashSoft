@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BashSoft
 {
-    public static class IOManager
+    public class IOManager
     {
-        public static void TraverseDirectory(int depth)
+        public void TraverseDirectory(int depth)
         {
             OutputWriter.WriteEmptyLine();
             int startDepth = SessionData.currentPath.Split('\\').Length;
@@ -48,7 +48,7 @@ namespace BashSoft
             }
         }
 
-        public static void CreateDirectoryInCurrentFolder(string name)
+        public void CreateDirectoryInCurrentFolder(string name)
         {
             var path = GetCurrentDirectoryPath() + "\\" + name;
 
@@ -62,14 +62,14 @@ namespace BashSoft
             }
         }
 
-        private static string GetCurrentDirectoryPath()
+        private string GetCurrentDirectoryPath()
         {
             string currentPath = Directory.GetCurrentDirectory();
 
             return currentPath;
         }
 
-        public static void ChangeCurrentDirectoryRelative(string relativePath)
+        public void ChangeCurrentDirectoryRelative(string relativePath)
         {
             if (relativePath == "..")
             {
@@ -93,7 +93,7 @@ namespace BashSoft
             }
         }
 
-        public static void ChangeCurrentDirectoryAbsolute(string absolutePath)
+        public void ChangeCurrentDirectoryAbsolute(string absolutePath)
         {
             if (!Directory.Exists(absolutePath))
             {

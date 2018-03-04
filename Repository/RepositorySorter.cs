@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BashSoft
 {
-    public static class RepositorySorters
+    public class RepositorySorter
     {
-        public static void OrderAndTake(Dictionary<string, List<int>> wantedData,
+        public void OrderAndTake(Dictionary<string, double> wantedData,
             string comparison, int studentsToTake)
         {
             comparison = comparison.ToLower();
@@ -15,14 +15,14 @@ namespace BashSoft
             if (comparison == "ascending")
             {
                 PrintStudents(wantedData
-                    .OrderBy(x => x.Value.Sum())
+                    .OrderBy(x => x.Value)
                     .Take(studentsToTake)
                     .ToDictionary(a => a.Key, b => b.Value));
             }
             else if (comparison == "descending")
             {
                 PrintStudents(wantedData
-                    .OrderByDescending(x => x.Value.Sum())
+                    .OrderByDescending(x => x.Value)
                     .Take(studentsToTake)
                     .ToDictionary(a => a.Key, b => b.Value)); ;
             }
@@ -32,7 +32,7 @@ namespace BashSoft
             }
         }
 
-        private static void PrintStudents(Dictionary<string, List<int>> studentsSorted)
+        private void PrintStudents(Dictionary<string, double> studentsSorted)
         {
             foreach (var kvp in studentsSorted)
             {

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BashSoft
 {
-    public static class Tester
+    public class Tester
     {
-        public static void CompareContents(string userOutputPath,
+        public void CompareContents(string userOutputPath,
             string expectedOutputPath)
         {
             try
@@ -32,7 +32,7 @@ namespace BashSoft
         }
 
 
-        private static string GetMismatchPath(string expectedOutputPath)
+        private string GetMismatchPath(string expectedOutputPath)
         {
             int indexOf = expectedOutputPath.LastIndexOf('\\');
 
@@ -42,7 +42,7 @@ namespace BashSoft
             return finalPath;
         }
 
-        private static string[] GetLinesWithPossibleMismatches(
+        private string[] GetLinesWithPossibleMismatches(
             string[] actualOutputLines, string[] expectedOutputLines, out bool hasMismatch)
         {
             hasMismatch = false;
@@ -83,7 +83,7 @@ namespace BashSoft
 
             return mismatches;
         }
-        private static void PrintOutput(string[] mismatches, bool hasMismatch, string mismatchPath)
+        private void PrintOutput(string[] mismatches, bool hasMismatch, string mismatchPath)
         {
             if (hasMismatch)
             {
