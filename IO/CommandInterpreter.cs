@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace BashSoft
@@ -23,6 +24,30 @@ namespace BashSoft
             string[] data = input.Split(' ');
             string command = data[0];
 
+            try
+            {
+                ParseCommand(input, data, command);
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                Console.WriteLine(dnfe.Message);
+            }
+            catch(ArgumentOutOfRangeException aoore)
+            {
+                Console.WriteLine(aoore.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void ParseCommand(string input, string[] data, string command)
+        {
             switch (command)
             {
                 case "open":

@@ -36,5 +36,6 @@ namespace BashSoft
         public const string NotEnrolledInCourse = "Student must be enrolled in a course before you set his mark.";
         public const string InvalidNumberOfScores = "The number of scores for the given course is greater than the possible.";
         public const string InvalidScore = "Score should be between 0 and 100";
+        public const string NullOrEmptyValue = "The value of the variable CANNOT be null or empty!";
     }
 }

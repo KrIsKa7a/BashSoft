@@ -58,7 +58,7 @@ namespace BashSoft
             }
             catch (ArgumentException)
             {
-                OutputWriter.DisplayException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+                throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
             }
         }
 

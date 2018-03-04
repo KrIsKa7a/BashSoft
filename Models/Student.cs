@@ -7,26 +7,50 @@ namespace BashSoft.Models
 {
     class Student
     {
-        public string userName;
-        public Dictionary<string, Course> enrolledCourse;
-        public Dictionary<string, double> marksByCourseName;
+        private string userName;
+        private Dictionary<string, Course> enrolledCourse;
+        private Dictionary<string, double> marksByCourseName;
 
         public Student(string userName)
         {
-            this.userName = userName;
+            this.UserName = userName;
             this.enrolledCourse = new Dictionary<string, Course>();
             this.marksByCourseName = new Dictionary<string, double>();
+        }
+
+        public IReadOnlyDictionary<string, Course> EnrolledCourse
+        {
+            get { return this.enrolledCourse; }
+        }
+
+        public IReadOnlyDictionary<string, double> MarksByCourseName
+        {
+            get { return this.marksByCourseName; }
+        }
+
+        public string UserName
+        {
+            get { return this.userName; }
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException(nameof(this.userName), ExceptionMessages.NullOrEmptyValue);
+                }
+
+                this.userName = value;
+            }
         }
 
         public void EnrollInCourse(Course course)
         {
             if (this.enrolledCourse.ContainsKey(this.userName))
             {
-                OutputWriter.DisplayException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.userName, course.name));
+                OutputWriter.DisplayException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.userName, course.Name));
                 return;
             }
 
-            this.enrolledCourse.Add(course.name, course);
+            this.enrolledCourse.Add(course.Name, course);
         }
 
         public void SetMarksOnCourse(string courseName, params int[] scores)
