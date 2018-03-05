@@ -28,7 +28,7 @@ namespace BashSoft
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidComparisonQuery);
+                throw new InvalidOperationException(ExceptionMessages.InvalidComparisonQuery);
             }
         }
 

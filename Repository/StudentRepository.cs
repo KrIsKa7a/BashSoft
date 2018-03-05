@@ -41,7 +41,7 @@ namespace BashSoft
         {
             if (!isDataInitialized)
             {
-                OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
+                throw new ArgumentException(ExceptionMessages.DataNotInitializedExceptionMessage);
             }
 
             this.students = null;
@@ -85,12 +85,12 @@ namespace BashSoft
 
                             if (scores.Any(s => s < 0 || s > 100))
                             {
-                                OutputWriter.DisplayException(ExceptionMessages.InvalidScore);
+                                throw new ArgumentOutOfRangeException(ExceptionMessages.InvalidScore);
                             }
 
                             if (scores.Length > Course.NumberOfTasksOnExam)
                             {
-                                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
+                                throw new InvalidOperationException(ExceptionMessages.InvalidNumberOfScores);
                             }
 
                             if (!this.students.ContainsKey(student))
@@ -110,6 +110,14 @@ namespace BashSoft
                             currentStudent.SetMarksOnCourse(course, scores);
 
                             currentCourse.EnrollStudent(currentStudent);
+                        }
+                        catch(InvalidOperationException ioe)
+                        {
+                            Console.WriteLine(ioe.Message);
+                        }
+                        catch(ArgumentOutOfRangeException aoore)
+                        {
+                            Console.WriteLine(aoore.Message);
                         }
                         catch (FormatException fex)
                         {

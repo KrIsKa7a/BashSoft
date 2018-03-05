@@ -44,10 +44,9 @@ namespace BashSoft.Models
 
         public void EnrollInCourse(Course course)
         {
-            if (this.enrolledCourse.ContainsKey(this.userName))
+            if (this.enrolledCourse.ContainsKey(course.Name))
             {
-                OutputWriter.DisplayException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.userName, course.Name));
-                return;
+                throw new InvalidOperationException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.userName, course.Name));
             }
 
             this.enrolledCourse.Add(course.Name, course);
@@ -57,14 +56,12 @@ namespace BashSoft.Models
         {
             if (!this.enrolledCourse.ContainsKey(courseName))
             {
-                OutputWriter.DisplayException(ExceptionMessages.NotEnrolledInCourse);
-                return;
+                throw new InvalidOperationException (ExceptionMessages.NotEnrolledInCourse);
             }
 
             if (scores.Length > Course.NumberOfTasksOnExam)
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
-                return;
+                throw new ArgumentOutOfRangeException(ExceptionMessages.InvalidNumberOfScores);
             }
 
             this.marksByCourseName.Add(courseName, CalculateMark(scores));
