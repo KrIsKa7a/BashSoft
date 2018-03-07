@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using BashSoft.Exceptions;
 
 namespace BashSoft
 {
@@ -39,6 +40,54 @@ namespace BashSoft
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            catch (DuplicateEntryInStructureException deise)
+            {
+                Console.WriteLine(deise.Message);
+            }
+            catch(InvalidFileNameException ifne)
+            {
+                Console.WriteLine(ifne.Message);
+            }
+            catch(InvalidPathException ipe)
+            {
+                Console.WriteLine(ipe.Message);
+            }
+            catch(InvalidStringException ise)
+            {
+                Console.WriteLine(ise.Message);
+            }
+            catch(CourseNotFoundException cnfe)
+            {
+                Console.WriteLine(cnfe.Message);
+            }
+            catch(DataAlreadyInitialisedException daie)
+            {
+                Console.WriteLine(daie.Message);
+            }
+            catch(DataNotInitializedException dnie)
+            {
+                Console.WriteLine(dnie.Message);
+            }
+            catch(InexistingStudentException ise)
+            {
+                Console.WriteLine(ise.Message);
+            }
+            catch(InvalidNumberOfScoresException inose)
+            {
+                Console.WriteLine(inose.Message);
+            }
+            catch(InvalidScoreException ise)
+            {
+                Console.WriteLine(ise.Message);
+            }
+            catch(InvalidComparisonQueryException icqe)
+            {
+                Console.WriteLine(icqe.Message);
+            }
+            catch(FilesWithDifferentSizeException fwdse)
+            {
+                Console.WriteLine(fwdse.Message);
             }
             catch(Exception e)
             {

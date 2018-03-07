@@ -1,4 +1,5 @@
-﻿using BashSoft.Models;
+﻿using BashSoft.Exceptions;
+using BashSoft.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +34,7 @@ namespace BashSoft
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.DataAlreadyInitialisedException);
+                throw new DataAlreadyInitialisedException();
             }
         }
 
@@ -41,7 +42,7 @@ namespace BashSoft
         {
             if (!isDataInitialized)
             {
-                throw new ArgumentException(ExceptionMessages.DataNotInitializedExceptionMessage);
+                throw new DataNotInitializedException();
             }
 
             this.students = null;
@@ -85,12 +86,12 @@ namespace BashSoft
 
                             if (scores.Any(s => s < 0 || s > 100))
                             {
-                                throw new ArgumentOutOfRangeException(ExceptionMessages.InvalidScore);
+                                throw new InvalidScoreException();
                             }
 
                             if (scores.Length > Course.NumberOfTasksOnExam)
                             {
-                                throw new InvalidOperationException(ExceptionMessages.InvalidNumberOfScores);
+                                throw new InvalidNumberOfScoresException();
                             }
 
                             if (!this.students.ContainsKey(student))
@@ -111,13 +112,13 @@ namespace BashSoft
 
                             currentCourse.EnrollStudent(currentStudent);
                         }
-                        catch(InvalidOperationException ioe)
+                        catch(InvalidNumberOfScoresException inose)
                         {
-                            Console.WriteLine(ioe.Message);
+                            Console.WriteLine(inose.Message);
                         }
-                        catch(ArgumentOutOfRangeException aoore)
+                        catch(InvalidScoreException ise)
                         {
-                            Console.WriteLine(aoore.Message);
+                            Console.WriteLine(ise.Message);
                         }
                         catch (FormatException fex)
                         {
@@ -130,7 +131,7 @@ namespace BashSoft
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
+                throw new InvalidPathException();
             }
         }
 
@@ -144,15 +145,13 @@ namespace BashSoft
                 }
                 else
                 {
-                    OutputWriter.DisplayException(ExceptionMessages.InexistingCourseInDataBase);
+                    throw new CourseNotFoundException();
                 }
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
+                throw new DataNotInitializedException();
             }
-
-            return false;
         }
 
         private bool IsQueryForStudentPossible(string course, string student)
@@ -163,10 +162,8 @@ namespace BashSoft
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InexistingStudentInDataBase);
+                throw new InexistingStudentException();
             }
-
-            return false;
         }
 
         public void GetStudentScoresFromCourse(string student, string course)

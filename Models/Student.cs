@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace BashSoft.Models
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new ArgumentException(nameof(this.userName), ExceptionMessages.NullOrEmptyValue);
+                    throw new InvalidStringException();
                 }
 
                 this.userName = value;
@@ -46,7 +47,7 @@ namespace BashSoft.Models
         {
             if (this.enrolledCourse.ContainsKey(course.Name))
             {
-                throw new InvalidOperationException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.userName, course.Name));
+                throw new DuplicateEntryInStructureException(this.userName, course.Name);
             }
 
             this.enrolledCourse.Add(course.Name, course);
@@ -61,7 +62,7 @@ namespace BashSoft.Models
 
             if (scores.Length > Course.NumberOfTasksOnExam)
             {
-                throw new ArgumentOutOfRangeException(ExceptionMessages.InvalidNumberOfScores);
+                throw new InvalidNumberOfScoresException();
             }
 
             this.marksByCourseName.Add(courseName, CalculateMark(scores));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace BashSoft
             }
             else
             {
-                throw new InvalidOperationException(ExceptionMessages.InvalidComparisonQuery);
+                throw new InvalidComparisonQueryException();
             }
         }
 

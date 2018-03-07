@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -27,7 +28,7 @@ namespace BashSoft
             }
             catch (FileNotFoundException)
             {
-                throw new FileNotFoundException(ExceptionMessages.InvalidPath);
+                throw new InvalidPathException();
             }
             catch(InvalidOperationException ioe)
             {
@@ -63,7 +64,8 @@ namespace BashSoft
             {
                 hasMismatch = true;
                 minOutputLines = Math.Min(actualOutputLines.Length, expectedOutputLines.Length);
-                throw new InvalidOperationException(ExceptionMessages.ComparisonOfFilesWithDifferentSizes);
+
+                throw new FilesWithDifferentSizeException();
             }
 
             string[] mismatches = new string[minOutputLines];
@@ -105,7 +107,7 @@ namespace BashSoft
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
+                    throw new InvalidPathException();
                 }
 
                 return;
