@@ -114,19 +114,20 @@ namespace BashSoft
                         }
                         catch(InvalidNumberOfScoresException inose)
                         {
-                            Console.WriteLine(inose.Message);
+                            OutputWriter.DisplayException(inose.Message);
                         }
                         catch(InvalidScoreException ise)
                         {
-                            Console.WriteLine(ise.Message);
+                            OutputWriter.DisplayException(ise.Message);
                         }
                         catch (FormatException fex)
                         {
-                            Console.WriteLine(fex.Message + $".at line : {line}");
+                            OutputWriter.DisplayException(fex.Message + $".at line : {line}");
                         }
                     }
                 }
 
+                this.isDataInitialized = true;
                 OutputWriter.WriteMessageOnNewLine("Data read!");
             }
             else

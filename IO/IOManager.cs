@@ -65,7 +65,7 @@ namespace BashSoft
 
         private string GetCurrentDirectoryPath()
         {
-            string currentPath = Directory.GetCurrentDirectory();
+            string currentPath = SessionData.currentPath;
 
             return currentPath;
         }

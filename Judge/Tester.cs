@@ -32,11 +32,11 @@ namespace BashSoft
             }
             catch(InvalidOperationException ioe)
             {
-                Console.WriteLine(ioe.Message);
+                OutputWriter.DisplayException(ioe.Message);
             }
             catch(DirectoryNotFoundException dnfe)
             {
-                Console.WriteLine(dnfe.Message);
+                OutputWriter.DisplayException(dnfe.Message);
             }
         }
 
