@@ -1,4 +1,5 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts.TesterContracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace BashSoft
 {
-    public class Tester
+    public class Tester : IContentComparer
     {
         public void CompareContents(string userOutputPath,
             string expectedOutputPath)
@@ -32,11 +33,11 @@ namespace BashSoft
             }
             catch(InvalidOperationException ioe)
             {
-                OutputWriter.DisplayException(ioe.Message);
+                Console.WriteLine(ioe.Message);
             }
             catch(DirectoryNotFoundException dnfe)
             {
-                OutputWriter.DisplayException(dnfe.Message);
+                Console.WriteLine(dnfe.Message);
             }
         }
 

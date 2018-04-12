@@ -1,4 +1,8 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
+using BashSoft.Contracts.StudentRepositoryContracts;
+using BashSoft.Contracts.TesterContracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,9 +10,11 @@ using System.Text;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("open")]
     public class OpenFileCommand : Command
     {
-        public OpenFileCommand(string input, string[] data, Tester judge, StudentRepository studentRepository, IOManager iOManager) : base(input, data, judge, studentRepository, iOManager)
+        public OpenFileCommand(string input, string[] data) 
+            : base(input, data)
         {
 
         }

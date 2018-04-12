@@ -1,13 +1,22 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
+using BashSoft.Contracts.StudentRepositoryContracts;
+using BashSoft.Contracts.TesterContracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("ls")]
     public class TraverseFoldersCommand : Command
     {
-        public TraverseFoldersCommand(string input, string[] data, Tester judge, StudentRepository studentRepository, IOManager iOManager) : base(input, data, judge, studentRepository, iOManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public TraverseFoldersCommand(string input, string[] data) 
+            : base(input, data)
         {
         }
 
@@ -15,7 +24,7 @@ namespace BashSoft.IO.Commands
         {
             if (this.Data.Length == 1)
             {
-                this.InputOutputManager.TraverseDirectory(0);
+                this.inputOutputManager.TraverseDirectory(0);
             }
             else if (this.Data.Length == 2)
             {
@@ -24,7 +33,7 @@ namespace BashSoft.IO.Commands
 
                 if (hasParsed)
                 {
-                    this.InputOutputManager.TraverseDirectory(depth);
+                    this.inputOutputManager.TraverseDirectory(depth);
                 }
                 else
                 {

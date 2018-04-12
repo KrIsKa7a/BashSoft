@@ -1,13 +1,22 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
+using BashSoft.Contracts.StudentRepositoryContracts;
+using BashSoft.Contracts.TesterContracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("cdAbs")]
     public class ChangeAbsolutePathCommand : Command
     {
-        public ChangeAbsolutePathCommand(string input, string[] data, Tester judge, StudentRepository studentRepository, IOManager iOManager) : base(input, data, judge, studentRepository, iOManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public ChangeAbsolutePathCommand(string input, string[] data) 
+            : base(input, data)
         {
         }
 
@@ -16,7 +25,7 @@ namespace BashSoft.IO.Commands
             if (this.Data.Length == 2)
             {
                 var absPath = this.Data[1];
-                this.InputOutputManager.ChangeCurrentDirectoryAbsolute(absPath);
+                this.inputOutputManager.ChangeCurrentDirectoryAbsolute(absPath);
             }
             else
             {

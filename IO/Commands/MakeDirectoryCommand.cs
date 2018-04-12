@@ -1,13 +1,22 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
+using BashSoft.Contracts.StudentRepositoryContracts;
+using BashSoft.Contracts.TesterContracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("mkdir")]
     public class MakeDirectoryCommand : Command
     {
-        public MakeDirectoryCommand(string input, string[] data, Tester judge, StudentRepository studentRepository, IOManager iOManager) : base(input, data, judge, studentRepository, iOManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public MakeDirectoryCommand(string input, string[] data) 
+            : base(input, data)
         {
 
         }
@@ -17,7 +26,7 @@ namespace BashSoft.IO.Commands
             if (this.Data.Length == 2)
             {
                 string folderName = this.Data[1];
-                this.InputOutputManager.CreateDirectoryInCurrentFolder(folderName);
+                this.inputOutputManager.CreateDirectoryInCurrentFolder(folderName);
             }
             else
             {

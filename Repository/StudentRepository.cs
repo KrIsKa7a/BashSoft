@@ -1,4 +1,8 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts.ModelsContracts;
+using BashSoft.Contracts.SortedListContracts;
+using BashSoft.Contracts.StudentRepositoryContracts;
+using BashSoft.DataStructures;
+using BashSoft.Exceptions;
 using BashSoft.Models;
 using System;
 using System.Collections.Generic;
@@ -9,15 +13,15 @@ using System.Text.RegularExpressions;
 
 namespace BashSoft
 {
-    public class StudentRepository
+    public class StudentRepository : IDatabase
     {
         private bool isDataInitialized;
-        private RepositoryFilter filter;
-        private RepositorySorter sorter;
-        private Dictionary<string, Course> courses;
-        private Dictionary<string, Student> students;
+        private IDataFilter filter;
+        private IDataSorter sorter;
+        private Dictionary<string, ICourse> courses;
+        private Dictionary<string, IStudent> students;
 
-        public StudentRepository(RepositorySorter sorter, RepositoryFilter filter)
+        public StudentRepository(IDataSorter sorter, IDataFilter filter)
         {
             this.filter = filter;
             this.sorter = sorter;
@@ -28,8 +32,8 @@ namespace BashSoft
             if (!isDataInitialized)
             {
                 OutputWriter.WriteMessageOnNewLine("Read data...");
-                this.students = new Dictionary<string, Student>();
-                this.courses = new Dictionary<string, Course>();
+                this.students = new Dictionary<string, IStudent>();
+                this.courses = new Dictionary<string, ICourse>();
                 ReadData(fileName);
             }
             else
@@ -89,23 +93,23 @@ namespace BashSoft
                                 throw new InvalidScoreException();
                             }
 
-                            if (scores.Length > Course.NumberOfTasksOnExam)
+                            if (scores.Length > SoftUniCourse.NumberOfTasksOnExam)
                             {
                                 throw new InvalidNumberOfScoresException();
                             }
 
                             if (!this.students.ContainsKey(student))
                             {
-                                this.students[student] = new Student(student);
+                                this.students[student] = new SoftUniStudent(student);
                             }
 
                             if (!this.courses.ContainsKey(course))
                             {
-                                this.courses[course] = new Course(course);
+                                this.courses[course] = new SoftUniCourse(course);
                             }
 
-                            Course currentCourse = this.courses[course];
-                            Student currentStudent = this.students[student];
+                            ICourse currentCourse = this.courses[course];
+                            IStudent currentStudent = this.students[student];
 
                             currentStudent.EnrollInCourse(currentCourse);
                             currentStudent.SetMarksOnCourse(course, scores);
@@ -220,6 +224,22 @@ namespace BashSoft
 
                 this.sorter.OrderAndTake(marks, comparison, studentsToTake.Value);
             }
+        }
+
+        public ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp)
+        {
+            SimpleSortedList<ICourse> sortedCourses = new SimpleSortedList<ICourse>(cmp);
+            sortedCourses.AddAll(this.courses.Values);
+
+            return sortedCourses;
+        }
+
+        public ISimpleOrderedBag<IStudent> GetAllStudentsSorted(IComparer<IStudent> cmp)
+        {
+            SimpleSortedList<IStudent> sortedStudents = new SimpleSortedList<IStudent>(cmp);
+            sortedStudents.AddAll(this.students.Values);
+
+            return sortedStudents;
         }
     }
 }

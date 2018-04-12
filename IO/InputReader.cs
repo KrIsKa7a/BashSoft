@@ -1,16 +1,17 @@
-﻿using System;
+﻿using BashSoft.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BashSoft
 {
-    public class InputReader
+    public class InputReader : IReader
     {
         private const string endCommand = "quit";
 
-        private CommandInterpreter interpreter;
+        private IInterpreter interpreter;
 
-        public InputReader(CommandInterpreter interpreter)
+        public InputReader(IInterpreter interpreter)
         {
             this.interpreter = interpreter;
         }
